@@ -59,3 +59,21 @@ This investigation has revealed some interesting temporal patterns in the data, 
 ```{r}
 bike <- bike |> filter(functioning_day == "Yes")
 ```
+
+Next, in order to simplify future analyses of this data, the rented bike values will be summarized by day to give one value per day, as opposed to one value every hour each day. 
+```{r}
+daily_bike <- bike |> group_by(date, seasons, holiday) |> summarize(
+  total_bike_count = sum(rented_bike_count), 
+  total_rainfall = sum(rainfall_mm),
+  total_snowfall = sum(snowfall_cm),
+  mean_temperature = mean(temperature_c),
+  mean_humidity = mean(humidity_percent),
+  mean_windspeed = mean(wind_speed_m_s),
+  mean_visibility = mean(visibility_10m),
+  mean_dewpoint = mean(dew_point_temperature_c),
+  mean_solar_radiation = mean(solar_radiation_mj_m2)
+) |>
+  ungroup()
+
+head(daily_bike)
+```
