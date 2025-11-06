@@ -26,3 +26,8 @@ str(bike)
 summary(bike)
 lapply(bike, function(x) if(is.character(x) || is.factor(x)) unique(x))
 ```
+
+Now that we have a good idea of the structure of the data as well as the kind of values we see for both numeric and categorical variables, lets convert the Date column to the Date type of data.
+```{r}
+bike <- bike |> mutate(Date = dmy(Date))
+```
