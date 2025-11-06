@@ -19,3 +19,10 @@ To start, we need to check our data set and prepare it for use in generating mod
 ```{r}
 colSums(is.na(bike))
 ```
+
+It appears there are no missing values in the dataset. Next we will check the types of data in each column, as well as show summary stats for each numeric column and levels for categorical columns.
+```{r}
+str(bike)
+summary(bike)
+lapply(bike, function(x) if(is.character(x) || is.factor(x)) unique(x))
+```
