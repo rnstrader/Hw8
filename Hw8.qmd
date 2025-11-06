@@ -112,7 +112,19 @@ bike_test <- testing(bike_split)
 
 Now that we have created our training and test sets, we will create a 10-fold cross validation object which we can use for model tuning and evaluation at a later stage.
 ```{r}
-bike_fold <- floor(nrow(daily_bike)/10)
-set.seed(8)
-random_indices <- sample(1:nrow(daily_bike), size = nrow(daily_bike), replace = FALSE)
+get_cv_splits <- function(data, num_folds) {
+  size_fold <- floor(nrow(data)/num_folds)
+  random_indics <- sample(1:nrow(data), size = nrow(data), replace = FALSE)
+  folds <- list()
+  for(i in 1:num_folds){
+    if (i < num_folds) {
+      fold_index <- seq(from = (i-1)*size_fold +1, to = i*size_fold, by = 1)
+      folds[[i]] <- data[random_indices[fold_index], ]
+    } else {
+      fold_index <- seq(from = (i-1)*size_fold +1, to = length(random_indices), by = 1)
+      folds[[i]] <- data[random_indices[fold_index], ]
+    }
+  }
+  return(folds)
+}
 ```
