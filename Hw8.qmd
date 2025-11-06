@@ -92,4 +92,11 @@ library(ggpubr)
 daily_bike |> ggplot(aes(x = total_rainfall, y = total_bike_count)) + geom_point() + stat_cor(method = "pearson", label.x.npc = 0.25) + facet_wrap(~seasons) + theme_minimal() + labs(title = "Rented Bike Count vs Rainfall", x = "Total Rainfall (mm)", y = "Rented Bike Count")
 
 daily_bike |> ggplot(aes(x = mean_temperature, y = total_bike_count)) + geom_point() + stat_cor(method = "pearson") + theme_minimal() + labs(title = "Rented Bike Count vs Average Temperature", x = "Average Temperature (Celsius)", y = "Rented Bike Count")
+
+daily_bike |> ggplot(aes(x = seasons, y = total_bike_count)) + geom_col() + theme_minimal() + labs(title = "Rented Bike Count vs Season", x = "Season", y = "Rented Bike Count")
 ```
+
+Based on these explorations, some assumptions made about possible relationships we might see have been confirmed. Regardless of season, bike usage was low during high rainfall events, while its usage during dry periods was more variable. Seasonally, winter sees considerably less use of rental bikes than any other season, and summer has the most use of rental bikes. This is supported by the fact that rental bike use generally appears to increase with warmer temperatures, although we can see a possible indication that very warm weather (> 25 degrees Celsius) might actually see decrease in bike use as temperature increases, which indicates that the ideal temperature of bike use is likely around room temperature, or 22 degrees C. It is important to note with this that the variation of bike usage appears very scattered around this same value, which could be the effect of precipitation or other factors independent of temperature.
+
+### Split the Data
+
