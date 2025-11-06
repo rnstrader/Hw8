@@ -54,3 +54,8 @@ bike |> group_by(holiday) |>
 bike |> group_by(functioning_day) |>
   summarize(mean_bike_count = mean(rented_bike_count))
 ```
+
+This investigation has revealed some interesting temporal patterns in the data, as well as very high extreme values of bike rentals, but most interesting is that no bikes are rented on days that the value of Functioning Day is "No". This means that we should subset the data to only include days where the bike sharing system is functional. 
+```{r}
+bike <- bike |> filter(functioning_day == "Yes")
+```
