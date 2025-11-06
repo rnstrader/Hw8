@@ -112,30 +112,23 @@ bike_test <- testing(bike_split)
 
 Now that we have created our training and test sets, we will create a 10-fold cross validation object which we can use for model tuning and evaluation at a later stage.
 ```{r}
-#creating a function for cv splits
+#creating a function for CV splits
 get_cv_splits <- function(data, num_folds) {
   size_fold <- floor(nrow(data)/num_folds)
-  random_indics <- sample(1:nrow(data), size = nrow(data), replace = FALSE)
-  folds <- list()
-  for(i in 1:num_folds){
-    if (i < num_folds) {
-      fold_index <- seq(from = (i-1)*size_fold +1, to = i*size_fold, by = 1)
-      folds[[i]] <- data[random_indices[fold_index], ]
-    } else {
-      fold_index <- seq(from = (i-1)*size_fold +1, to = length(random_indices), by = 1)
-      folds[[i]] <- data[random_indices[fold_index], ]
-    }
+  random_indices <- sample(1:nrow(data))
+  folds <- split(data[random_indices, ], rep(1:num_folds, each = size_fold, length.out = nrow(data)))
+  
+  cv_splits <- vector("list", num_folds)
+  
+  for (i in seq_len(num_folds)) {
+    test_data  <- folds[[i]]
+    train_data <- do.call(rbind, folds[-i])
+    cv_splits[[i]] <- list(train = train_data, test = test_data)
   }
-  return(folds)
+  
+  return(cv_splits)
 }
 
-#creating a function for test metric
-find_test_metric <- function(y, x, folds, test_number){
-  test <- folds[[test_number]]
-  train_list <- folds[-test_number]
-  train <- purrr::reduce(train_list, rbind)
-  fit <- lm(reformulate(termlabels = x, response = y), data = train)
-  (yardstick::rmse_vec(test[[y]], predict(fit, newdata = test)))^2
-}
-
+#applying the function to generate a 10 fold CV
+cv_splits <- get_cv_splits(bike_train, 10)
 ```
