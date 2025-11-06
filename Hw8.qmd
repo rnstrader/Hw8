@@ -129,6 +129,10 @@ get_cv_splits <- function(data, num_folds) {
   return(cv_splits)
 }
 
-#applying the function to generate a 10 fold CV
+#applying the function to generate a 10 fold CV split
 cv_splits <- get_cv_splits(bike_train, 10)
 ```
+
+Now that we have our 10 fold CV splits, we can now proceed to modeling the bike sharing data.
+
+### Fitting MLR Models
