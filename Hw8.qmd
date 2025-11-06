@@ -31,3 +31,8 @@ Now that we have a good idea of the structure of the data as well as the kind of
 ```{r}
 bike <- bike |> mutate(Date = dmy(Date))
 ```
+
+The Date column is now a Date type of data. Now we should convert the other character data columns into factor data.
+```{r}
+bike <- bike |> mutate(across(where(is.character), as.factor))
+```
