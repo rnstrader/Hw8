@@ -41,4 +41,16 @@ Now that we have categorical variables as factors, our last step to tidy the dat
 ```{r}
 library(janitor)
 bike <- bike |> clean_names()
+names(bike)
+```
+
+The data is now cleaned nicely, so lets take a look at some summary statistics for bike rental count and bike rental count subsetted by categorical variable levels.
+```{r}
+summary(bike$rented_bike_count)
+bike |> group_by(seasons) |>
+  summarize(mean_bike_count = mean(rented_bike_count))
+bike |> group_by(holiday) |>
+  summarize(mean_bike_count = mean(rented_bike_count))
+bike |> group_by(functioning_day) |>
+  summarize(mean_bike_count = mean(rented_bike_count))
 ```
