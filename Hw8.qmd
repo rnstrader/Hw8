@@ -1,0 +1,13 @@
+---
+title: "Hw8"
+format: html
+editor: visual
+---
+
+## Reading Data
+
+Reading in the Seoul bike sharing data set, using locale argument to fix error with element 1.
+```{r}
+library(tidyverse)
+bike <- read_csv("https://www4.stat.ncsu.edu/~online/datasets/SeoulBikeData.csv", locale=locale(encoding="latin1"))
+```
