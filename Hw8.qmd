@@ -77,3 +77,12 @@ daily_bike <- bike |> group_by(date, seasons, holiday) |> summarize(
 
 head(daily_bike)
 ```
+
+Now that we have a transformed data set that will be easier to analyze, lets recreate the summary stats from earlier for our new dataset. Then lets create some plots to explore if the relationships we might expect from the data are actually visible when plotted.
+```{r}
+summary(daily_bike$total_bike_count)
+daily_bike |> group_by(seasons) |>
+  summarize(mean_bike_count = mean(total_bike_count))
+daily_bike |> group_by(holiday) |> 
+  summarize(mean_bike_count = mean(total_bike_count))
+```
