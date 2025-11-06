@@ -36,3 +36,9 @@ The Date column is now a Date type of data. Now we should convert the other char
 ```{r}
 bike <- bike |> mutate(across(where(is.character), as.factor))
 ```
+
+Now that we have categorical variables as factors, our last step to tidy the dataset will be to rename the columns into lower snake case for ease of use, the clean_names function from the janitor package does this automatically.
+```{r}
+library(janitor)
+bike <- bike |> clean_names()
+```
