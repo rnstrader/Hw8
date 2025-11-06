@@ -93,10 +93,26 @@ daily_bike |> ggplot(aes(x = total_rainfall, y = total_bike_count)) + geom_point
 
 daily_bike |> ggplot(aes(x = mean_temperature, y = total_bike_count)) + geom_point() + stat_cor(method = "pearson") + theme_minimal() + labs(title = "Rented Bike Count vs Average Temperature", x = "Average Temperature (Celsius)", y = "Rented Bike Count")
 
-daily_bike |> ggplot(aes(x = seasons, y = total_bike_count)) + geom_col() + theme_minimal() + labs(title = "Rented Bike Count vs Season", x = "Season", y = "Rented Bike Count")
+daily_bike |> ggplot(aes(x = seasons, y = total_bike_count, fill = holiday)) + geom_col() + theme_minimal() + labs(title = "Rented Bike Count vs Season By Holiday", x = "Season", y = "Rented Bike Count")
 ```
 
 Based on these explorations, some assumptions made about possible relationships we might see have been confirmed. Regardless of season, bike usage was low during high rainfall events, while its usage during dry periods was more variable. Seasonally, winter sees considerably less use of rental bikes than any other season, and summer has the most use of rental bikes. This is supported by the fact that rental bike use generally appears to increase with warmer temperatures, although we can see a possible indication that very warm weather (> 25 degrees Celsius) might actually see decrease in bike use as temperature increases, which indicates that the ideal temperature of bike use is likely around room temperature, or 22 degrees C. It is important to note with this that the variation of bike usage appears very scattered around this same value, which could be the effect of precipitation or other factors independent of temperature.
 
 ### Split the Data
 
+Before we start modeling, we will need to split the data into training and test set. We will use a 75/25 split of training and test set respectively while stratifying the split by seasons.
+```{r}
+library(tidymodels)
+#setting seed for reproducibility
+set.seed(123)
+bike_split <- initial_split(daily_bike, prop = 0.75, strata = seasons)
+bike_train <- training(bike_split)
+bike_test <- testing(bike_split)
+```
+
+Now that we have created our training and test sets, we will create a 10-fold cross validation object which we can use for model tuning and evaluation at a later stage.
+```{r}
+bike_fold <- floor(nrow(daily_bike)/10)
+set.seed(8)
+random_indices <- sample(1:nrow(daily_bike), size = nrow(daily_bike), replace = FALSE)
+```
