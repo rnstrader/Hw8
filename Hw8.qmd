@@ -11,3 +11,11 @@ Reading in the Seoul bike sharing data set, using locale argument to fix error w
 library(tidyverse)
 bike <- read_csv("https://www4.stat.ncsu.edu/~online/datasets/SeoulBikeData.csv", locale=locale(encoding="latin1"))
 ```
+
+## EDA
+### Checking the Data
+
+To start, we need to check our data set and prepare it for use in generating models. First we check for any missing values. 
+```{r}
+colSums(is.na(bike))
+```
