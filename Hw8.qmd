@@ -230,3 +230,5 @@ final_fit <- last_fit(lm_wf2, split = bike_split)
 collect_metrics(final_fit)
 final_fit |> extract_fit_parsnip() |> tidy()
 ```
+
+From this, we have found the RMSE of the final model fit as well as extracted coefficients for the final model to observe the relationships predicted between rented bike counts and a variety of measured variables 
