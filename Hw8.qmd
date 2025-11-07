@@ -196,3 +196,8 @@ Next, we will set up a linear model fit and use with the lm engine.
 ```{r}
 lm_spec <- linear_reg() |> set_engine("lm")
 ```
+
+Next we are going to pick a best model. In order to do this we need to fit our models using our 10 fold CV and consider the training set CV error, which will quantify which model is the best.
+```{r}
+
+```
