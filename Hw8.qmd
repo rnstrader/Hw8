@@ -136,3 +136,17 @@ cv_splits <- get_cv_splits(bike_train, 10)
 Now that we have our 10 fold CV splits, we can now proceed to modeling the bike sharing data.
 
 ### Fitting MLR Models
+
+```{r}
+bike_rec <- recipe(total_bike_count ~ ., data = bike_train) |> 
+  step_date(date, features = "wday", keep_original_cols = FALSE) |>
+  step_mutate(
+    day_type = factor(
+      if_else(date_wday %in% c("Sat", "Sun"), "weekend", "weekday")
+    )
+  ) |>
+  step_rm(date_wday, date) |> 
+  step_normalize(all_numeric_predictors()) |> 
+  step_dummy(all_nominal_predictors())
+bike_rec
+```
