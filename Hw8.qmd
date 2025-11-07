@@ -226,5 +226,7 @@ collect_metrics(lm_res3)
 
 Based on the rmse for these models, it appears that recipe 2 lm_res2 worked best to fit the data out of these three models. Next we will fit this model to the entire training data set and get the coefficients.
 ```{r}
-
+final_fit <- last_fit(lm_wf2, split = bike_split)
+collect_metrics(final_fit)
+final_fit |> extract_fit_parsnip() |> tidy()
 ```
