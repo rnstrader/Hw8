@@ -139,7 +139,7 @@ Now that we have our 10 fold CV splits, we can now proceed to modeling the bike 
 
 ```{r}
 bike_rec <- recipe(total_bike_count ~ ., data = bike_train) |> 
-  step_date(date, features = "wday", keep_original_cols = FALSE) |>
+  step_date(date, features = "dow", keep_original_cols = FALSE) |>
   step_mutate(
     day_type = factor(
       if_else(date_wday %in% c("Sat", "Sun"), "weekend", "weekday")
