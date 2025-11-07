@@ -199,6 +199,7 @@ lm_spec <- linear_reg() |> set_engine("lm")
 
 Next we are going to pick a best model. In order to do this we need to fit our models using our 10 fold CV and consider the training set CV error, which will quantify which model is the best.
 ```{r}
+#creating workflows for each recipe
 lm_wf1 <- workflow() |> add_model(lm_spec) |>
   add_recipe(bike_rec)
 lm_wf2 <- workflow() |> add_model(lm_spec) |> 
@@ -206,6 +207,7 @@ lm_wf2 <- workflow() |> add_model(lm_spec) |>
 lm_wf3 <- workflow() |> add_model(lm_spec) |>
   add_recipe(bike_rec3)
 
+#Fit models using the 10 fold CV
 lm_res1 <- fit_resamples(
   lm_wf1, resamples = bike_folds, metrics = metric_set(rmse, rsq), control = control_resamples(save_pred = TRUE)
 )
@@ -215,4 +217,9 @@ lm_res2 <- fit_resamples(
 lm_res3 <- fit_resamples(
   lm_wf3, resamples = bike_folds, metrics = metric_set(rmse, rsq), control = control_resamples(save_pred = TRUE)
 )
+
+#Compareing training CV performance
+collect_metrics(lm_res1)
+collect_metrics(lm_res2)
+collect_metrics(lm_res3)
 ```
