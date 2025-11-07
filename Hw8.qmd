@@ -169,3 +169,25 @@ bike_rec2 <- recipe(total_bike_count ~ ., data = bike_train) |>
   step_interact(terms = ~ mean_temperature:total_rainfall)
 bike_rec2
 ```
+
+Our last recipe will do everything that the 2nd recipe did but will add quadratic terms for each numeric predictor.
+```{r}
+bike_rec3 <- recipe(total_bike_count ~ ., data = bike_train) |> 
+  step_date(date, features = "dow", keep_original_cols = FALSE) |>
+  step_mutate(
+    day_type = factor(
+      if_else(date_dow %in% c("Sat", "Sun"), "weekend", "weekday")
+    )
+  ) |>
+  step_rm(date_dow, date) |>
+  step_normalize(all_numeric_predictors()) |>
+  step_dummy(all_nominal_predictors()) |>
+  step_interact(terms = ~ starts_with("seasons_"):starts_with("holiday_")) |>
+  step_interact(terms = ~ starts_with("seasons_"):mean_temperature) |>
+  step_interact(terms = ~ mean_temperature:total_rainfall) |>
+  step_mutate_at(
+    all_numeric_predictors(),
+    fn = list(quad = ~ .^2)
+  )
+bike_rec3
+```
