@@ -223,3 +223,8 @@ collect_metrics(lm_res1)
 collect_metrics(lm_res2)
 collect_metrics(lm_res3)
 ```
+
+Based on the rmse for these models, it appears that recipe 2 lm_res2 worked best to fit the data out of these three models. Next we will fit this model to the entire training data set and get the coefficients.
+```{r}
+
+```
