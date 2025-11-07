@@ -218,7 +218,7 @@ lm_res3 <- fit_resamples(
   lm_wf3, resamples = bike_folds, metrics = metric_set(rmse, rsq), control = control_resamples(save_pred = TRUE)
 )
 
-#Compareing training CV performance
+#Comparing training CV performance
 collect_metrics(lm_res1)
 collect_metrics(lm_res2)
 collect_metrics(lm_res3)
