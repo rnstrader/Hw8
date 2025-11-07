@@ -208,6 +208,7 @@ lm_wf3 <- workflow() |> add_model(lm_spec) |>
   add_recipe(bike_rec3)
 
 #Fit models using the 10 fold CV
+set.seed(123)
 lm_res1 <- fit_resamples(
   lm_wf1, resamples = bike_folds, metrics = metric_set(rmse, rsq), control = control_resamples(save_pred = TRUE)
 )
