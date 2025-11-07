@@ -137,6 +137,7 @@ Now that we have our 10 fold CV splits, we can now proceed to modeling the bike 
 
 ### Fitting MLR Models
 
+To start with making models, we will first create several recipes. Our first recipe will be the simplest. The date variable is replaced with the weekday, weekend factor variable, as well as creating dummy variables for seasons, holidays, and the new factor variable for day type.
 ```{r}
 bike_rec <- recipe(total_bike_count ~ ., data = bike_train) |> 
   step_date(date, features = "dow", keep_original_cols = FALSE) |>
