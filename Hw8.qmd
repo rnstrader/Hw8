@@ -151,3 +151,8 @@ bike_rec <- recipe(total_bike_count ~ ., data = bike_train) |>
   step_dummy(all_nominal_predictors())
 bike_rec
 ```
+
+Now let's create a second recipe with the same steps as above, but with interactions between seasons and holiday, seasons and temperature, temperature and rainfall. 
+```{r}
+
+```
