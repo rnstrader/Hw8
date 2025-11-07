@@ -114,23 +114,30 @@ Now that we have created our training and test sets, we will create a 10-fold cr
 ```{r}
 #creating a function for CV splits
 get_cv_splits <- function(data, num_folds) {
-  size_fold <- floor(nrow(data)/num_folds)
-  random_indices <- sample(1:nrow(data))
-  folds <- split(data[random_indices, ], rep(1:num_folds, each = size_fold, length.out = nrow(data)))
-  
-  cv_splits <- vector("list", num_folds)
+  n <- nrow(data)
+  size_fold <- floor(n/num_folds)
+  random_indices <- sample(n)
+  folds <- vector("list", num_folds)
   
   for (i in seq_len(num_folds)) {
-    test_data  <- folds[[i]]
-    train_data <- do.call(rbind, folds[-i])
-    cv_splits[[i]] <- list(train = train_data, test = test_data)
+    if(i < num_folds) {
+      test_idx <- random_indices[((i-1)*size_fold + 1):(i*size_fold)]
+    } else {
+      test_idx <- random_indices[((i-1)*size_fold + 1):n]
+    }
+    train_idx <- setdiff(random_indices, test_idx)
+    folds[[i]] <- list(analysis = train_idx, assessment = test_idx)
   }
   
-  return(cv_splits)
+  return(folds)
 }
 
 #applying the function to generate a 10 fold CV split
-cv_splits <- get_cv_splits(bike_train, 10)
+bike_folds_list <- get_cv_splits(bike_train, 10)
+bike_folds <- manual_rset(
+  splits = map(bike_folds_list, ~ make_splits(.x, data = bike_train)),
+  ids = paste0("Fold", 1:10)
+)
 ```
 
 Now that we have our 10 fold CV splits, we can now proceed to modeling the bike sharing data.
