@@ -199,5 +199,10 @@ lm_spec <- linear_reg() |> set_engine("lm")
 
 Next we are going to pick a best model. In order to do this we need to fit our models using our 10 fold CV and consider the training set CV error, which will quantify which model is the best.
 ```{r}
-
+lm_wf1 <- workflow() |> add_model(lm_spec) |>
+  add_recipe(bike_rec)
+lm_wf2 <- workflow() |> add_model(lm_spec) |> 
+  add_recipe(bike_rec2)
+lm_wf3 <- workflow() |> add_model(lm_spec) |>
+  add_recipe(bike_rec3)
 ```
