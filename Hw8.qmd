@@ -191,3 +191,8 @@ bike_rec3 <- recipe(total_bike_count ~ ., data = bike_train) |>
   )
 bike_rec3
 ```
+
+Next, we will set up a linear model fit and use with the lm engine.
+```{r}
+lm_spec <- linear_reg() |> set_engine("lm")
+```
